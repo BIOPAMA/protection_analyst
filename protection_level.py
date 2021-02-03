@@ -1,5 +1,5 @@
 """
-Model exported as python.
+Author: Luca Battistella
 Name : wdpa_country_processing
 Group : wdpa
 With QGIS : 31415
