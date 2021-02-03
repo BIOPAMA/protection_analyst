@@ -24,11 +24,11 @@ This methodology was originally designed to be run in ArcGIS, and has been conve
 
 ### What the algorithm does 
 - [x] Filter out the above parameters
-- [x] Fixes geometries
+- [x] Fix geometries
 - [x] Create a buffer around protected areas reported as points. The area of the buffer is = Reported Area. 
 - [x] Merge buffered point and polygons to combine them into one single feature dataset.
-- [x] Calculates protected area coverage in GAUL or EEZ
-- [x] Calculates protected area percentage in GAUL or EEZ
+- [x] Calculate protected area coverage in GAUL or EEZ
+- [x] Calculate protected area percentage in GAUL or EEZ
 - [x] Load results in a postgres database
 
 
