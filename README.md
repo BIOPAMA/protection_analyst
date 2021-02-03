@@ -5,6 +5,7 @@ Calculates Protected Areas coverage and percentage in Country and EEZ
 3. Add layers to QGIS
 ![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/WDPA.png)
 4. It is suggested to create a spatial index on the WDPA Polygons to speed up the process
-![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/spatial_index.png)
+![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/Spatial_index.png)
 5. Run 'protection_levels.py' in Qgis
 6. If you need to load the results in your database, please provide the connection parameters to the script.
+![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/postgres.png)
