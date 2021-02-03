@@ -1,5 +1,5 @@
 # Protection Analyst
-### Calculates Protected Areas coverage and percentage in Country and EEZ
+### Calculates Protected Areas coverage and protection percentage in Country and EEZ
 
 
 
