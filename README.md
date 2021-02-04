@@ -9,14 +9,14 @@ This is a step by step guide on how to calculate national protected areas covera
 
 This methodology was originally designed to be run in ArcGIS, and has been converted here as a Python/Qgis script.
 
-### What is included in the calculation
-*Only sites with Status = designated, inscribed, adopted and established are included.*
-*Only points with a Reported Area are included.*
-*Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves (see reasons above in Section 2) are excluded.*
+### 1. What is included in the calculation
+Only sites with Status = designated, inscribed, adopted and established are included.
+Only points with a Reported Area are included.
+Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves (see reasons above in Section 2) are excluded.
 ___________________________________________________________________________
 *The statistics are computed using Mollweide projection, witch is an equal area projection, particularly known for its accuracy of proportions in area*
-
-### Steps
+___________________________________________________________________________
+### 2. Steps
 - [x] Dowload World Database on Protected Areas (WDPA) from https://www.protectedplanet.net/ 
 - [x] Donload GAUL and EEZ form this repository
 - [x] Add layers to QGIS
@@ -24,7 +24,7 @@ ___________________________________________________________________________
 - [x] It is suggested to create a spatial index on the WDPA Polygons to speed up the process
 - [x] Run 'protection_levels.py' in Qgis
 
-### What the algorithm does 
+### 3. What the algorithm does 
 - [x] Filter out the above parameters
 - [x] Fix geometries
 - [x] Create a buffer around protected areas reported as points. The area of the buffer is = Reported Area. 
@@ -33,7 +33,7 @@ ___________________________________________________________________________
 - [x] Calculate protected area percentage in GAUL or EEZ
 - [x] Load results in a postgres database
 
-
+___________________________________________________________________________
 *The terrestrial protected area coverage is calculated for each country or territory by dividing the total area of terrestrial protected areas by total terrestrial area of that country.
 The marine and coastal protected area coverage is calculated for each country or territory by dividing the total marine and coastal area of protected areas by total marine and coastal area of that country.*
 
