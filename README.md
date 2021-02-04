@@ -37,6 +37,8 @@ ___________________________________________________________________________
 *The terrestrial protected area coverage is calculated for each country or territory by dividing the total area of terrestrial protected areas by total terrestrial area of that country.
 The marine and coastal protected area coverage is calculated for each country or territory by dividing the total marine and coastal area of protected areas by total marine and coastal area of that country.*
 
+___________________________________________________________________________
 
+Author: Luca Battistella (EU-JRC)
 
 
