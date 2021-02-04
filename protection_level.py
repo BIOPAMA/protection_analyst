@@ -11,6 +11,7 @@ from qgis.core import QgsProcessingMultiStepFeedback
 from qgis.core import QgsProcessingParameterVectorLayer
 from qgis.core import QgsProcessingParameterString
 from qgis.core import QgsProcessingParameterFeatureSink
+from qgis.core import QgsProcessingParameterDefinition
 from qgis.core import QgsCoordinateReferenceSystem
 from qgis.core import QgsProperty
 import processing
@@ -22,24 +23,25 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         self.addParameter(QgsProcessingParameterVectorLayer('inputcountries', 'Input Countries or EEZ', types=[QgsProcessing.TypeVectorPolygon], defaultValue=None))
         self.addParameter(QgsProcessingParameterVectorLayer('inputwdpapoints', 'Input wdpa points', types=[QgsProcessing.TypeVectorPoint], defaultValue=None))
         self.addParameter(QgsProcessingParameterVectorLayer('inputwdpapolygons', 'Input wdpa polygons', types=[QgsProcessing.TypeVectorPolygon], defaultValue=None))
-        self.addParameter(QgsProcessingParameterString('wdpaversionperc', 'Postgres Table Name', multiLine=False, defaultValue='api_terr_jan_2021'))
+        param = QgsProcessingParameterString('wdpaversionperc', 'Postgres Table Name', multiLine=False, defaultValue='api_terr_jan_2021')
+        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(param)
         self.addParameter(QgsProcessingParameterFeatureSink('Result', 'result', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, defaultValue=None))
 
     def processAlgorithm(self, parameters, context, model_feedback):
         # Use a multi-step feedback, so that individual child algorithm progress reports are adjusted for the
         # overall progress through the model
-        feedback = QgsProcessingMultiStepFeedback(22, model_feedback)
+        feedback = QgsProcessingMultiStepFeedback(23, model_feedback)
         results = {}
         outputs = {}
 
-        # Extracted polygons
+        # Reproject countries
         alg_params = {
-            'INPUT': parameters['inputwdpapolygons'],
-            'INTERSECT': parameters['inputcountries'],
-            'PREDICATE': [0],
+            'INPUT': parameters['inputcountries'],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['ExtractedPolygons'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ReprojectCountries'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
         feedback.setCurrentStep(1)
         if feedback.isCanceled():
@@ -47,8 +49,8 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
 
         # Reproject layer
         alg_params = {
-            'INPUT': outputs['ExtractedPolygons']['OUTPUT'],
-            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:3857'),
+            'INPUT': parameters['inputwdpapolygons'],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['ReprojectLayer'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
@@ -57,51 +59,41 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
-        # Extracted points
+        # Reproject points
         alg_params = {
             'INPUT': parameters['inputwdpapoints'],
-            'INTERSECT': parameters['inputcountries'],
-            'PREDICATE': [0],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['ExtractedPoints'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ReprojectPoints'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
         feedback.setCurrentStep(3)
         if feedback.isCanceled():
             return {}
 
-        # Reproject points
+        # Extracted points
         alg_params = {
-            'INPUT': outputs['ExtractedPoints']['OUTPUT'],
-            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:3857'),
+            'INPUT': outputs['ReprojectPoints']['OUTPUT'],
+            'INTERSECT': outputs['ReprojectCountries']['OUTPUT'],
+            'PREDICATE': [0],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['ReprojectPoints'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ExtractedPoints'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
         feedback.setCurrentStep(4)
         if feedback.isCanceled():
             return {}
 
-        # Extract by expression
+        # Extracted polygons
         alg_params = {
-            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Eestablished\' ',
             'INPUT': outputs['ReprojectLayer']['OUTPUT'],
+            'INTERSECT': outputs['ReprojectCountries']['OUTPUT'],
+            'PREDICATE': [0],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['ExtractByExpression'] = processing.run('native:extractbyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ExtractedPolygons'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
         feedback.setCurrentStep(5)
-        if feedback.isCanceled():
-            return {}
-
-        # Fix EXTRACTED
-        alg_params = {
-            'INPUT': outputs['ExtractByExpression']['OUTPUT'],
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
-        }
-        outputs['FixExtracted'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
-
-        feedback.setCurrentStep(6)
         if feedback.isCanceled():
             return {}
 
@@ -112,25 +104,25 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
             'FIELD_PRECISION': 3,
             'FIELD_TYPE': 0,
             'FORMULA': 'sqrt(  \"REP_AREA\"/3.14)',
-            'INPUT': outputs['ReprojectPoints']['OUTPUT'],
+            'INPUT': outputs['ExtractedPoints']['OUTPUT'],
             'NEW_FIELD': True,
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['FieldCalculator'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(7)
+        feedback.setCurrentStep(6)
         if feedback.isCanceled():
             return {}
 
-        # Dissolve POLYGONS
+        # Extract by expression
         alg_params = {
-            'FIELD': 'ISO3',
-            'INPUT': outputs['FixExtracted']['OUTPUT'],
+            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Eestablished\' ',
+            'INPUT': outputs['ExtractedPolygons']['OUTPUT'],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['DissolvePolygons'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ExtractByExpression'] = processing.run('native:extractbyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(8)
+        feedback.setCurrentStep(7)
         if feedback.isCanceled():
             return {}
 
@@ -146,6 +138,17 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['Buffer'] = processing.run('native:buffer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(8)
+        if feedback.isCanceled():
+            return {}
+
+        # Fix EXTRACTED
+        alg_params = {
+            'INPUT': outputs['ExtractByExpression']['OUTPUT'],
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['FixExtracted'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
         feedback.setCurrentStep(9)
         if feedback.isCanceled():
@@ -174,15 +177,27 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         if feedback.isCanceled():
             return {}
 
+        # Dissolve POLYGONS
+        alg_params = {
+            'FIELD': 'ISO3',
+            'INPUT': outputs['FixExtracted']['OUTPUT'],
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['DissolvePolygons'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(12)
+        if feedback.isCanceled():
+            return {}
+
         # Merged Protection
         alg_params = {
-            'CRS': QgsCoordinateReferenceSystem('EPSG:3857'),
+            'CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
             'LAYERS': [outputs['DissolveBufferedPoints']['OUTPUT'],outputs['DissolvePolygons']['OUTPUT']],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['MergedProtection'] = processing.run('native:mergevectorlayers', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(12)
+        feedback.setCurrentStep(13)
         if feedback.isCanceled():
             return {}
 
@@ -193,7 +208,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FixMergedPointsAndPolygons'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(13)
+        feedback.setCurrentStep(14)
         if feedback.isCanceled():
             return {}
 
@@ -205,7 +220,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['DissolveProtection'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(14)
+        feedback.setCurrentStep(15)
         if feedback.isCanceled():
             return {}
 
@@ -216,19 +231,19 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FixDissolvedProtection'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(15)
+        feedback.setCurrentStep(16)
         if feedback.isCanceled():
             return {}
 
         # Clip
         alg_params = {
             'INPUT': outputs['FixDissolvedProtection']['OUTPUT'],
-            'OVERLAY': parameters['inputcountries'],
+            'OVERLAY': outputs['ReprojectCountries']['OUTPUT'],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['Clip'] = processing.run('native:clip', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(16)
+        feedback.setCurrentStep(17)
         if feedback.isCanceled():
             return {}
 
@@ -245,7 +260,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateClippedArea'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(17)
+        feedback.setCurrentStep(18)
         if feedback.isCanceled():
             return {}
 
@@ -253,9 +268,9 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         alg_params = {
             'DISCARD_NONMATCHING': False,
             'FIELD': 'isoa3_id',
-            'FIELDS_TO_COPY': 'prot_area',
+            'FIELDS_TO_COPY': ['prot_area'],
             'FIELD_2': 'ISO3',
-            'INPUT': parameters['inputcountries'],
+            'INPUT': outputs['ReprojectCountries']['OUTPUT'],
             'INPUT_2': outputs['CalculateClippedArea']['OUTPUT'],
             'METHOD': 1,
             'PREFIX': '',
@@ -263,7 +278,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['JoinGeometriesWithAttributes'] = processing.run('native:joinattributestable', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(18)
+        feedback.setCurrentStep(19)
         if feedback.isCanceled():
             return {}
 
@@ -280,7 +295,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateCountryArea'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(19)
+        feedback.setCurrentStep(20)
         if feedback.isCanceled():
             return {}
 
@@ -297,7 +312,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateProtection'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(20)
+        feedback.setCurrentStep(21)
         if feedback.isCanceled():
             return {}
 
@@ -315,7 +330,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         outputs['CalculateProtectionPercentage'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
         results['Result'] = outputs['CalculateProtectionPercentage']['OUTPUT']
 
-        feedback.setCurrentStep(21)
+        feedback.setCurrentStep(22)
         if feedback.isCanceled():
             return {}
 
