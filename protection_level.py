@@ -26,12 +26,15 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         param = QgsProcessingParameterString('wdpaversionperc', 'Postgres Table Name', multiLine=False, defaultValue='api_terr_jan_2021')
         param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
         self.addParameter(param)
-        self.addParameter(QgsProcessingParameterFeatureSink('Result', 'result', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, defaultValue=None))
+        param = QgsProcessingParameterString('APIComment', 'API Comment', optional=True, multiLine=False, defaultValue='comment on table protection_level.api_mar_feb_2021 is \'21_02 - Terrestrial protection February 2021\';')
+        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(param)
+        self.addParameter(QgsProcessingParameterFeatureSink('Result', 'Result', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
 
     def processAlgorithm(self, parameters, context, model_feedback):
         # Use a multi-step feedback, so that individual child algorithm progress reports are adjusted for the
         # overall progress through the model
-        feedback = QgsProcessingMultiStepFeedback(23, model_feedback)
+        feedback = QgsProcessingMultiStepFeedback(25, model_feedback)
         results = {}
         outputs = {}
 
@@ -325,12 +328,24 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
             'FORMULA': '(\"prot_km\"*100)/\"country_area_km\"',
             'INPUT': outputs['CalculateProtection']['OUTPUT'],
             'NEW_FIELD': True,
-            'OUTPUT': parameters['Result']
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         outputs['CalculateProtectionPercentage'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
-        results['Result'] = outputs['CalculateProtectionPercentage']['OUTPUT']
 
         feedback.setCurrentStep(22)
+        if feedback.isCanceled():
+            return {}
+
+        # Reproject layer
+        alg_params = {
+            'INPUT': outputs['CalculateProtectionPercentage']['OUTPUT'],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:4326'),
+            'OUTPUT': parameters['Result']
+        }
+        outputs['ReprojectLayer'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        results['Result'] = outputs['ReprojectLayer']['OUTPUT']
+
+        feedback.setCurrentStep(23)
         if feedback.isCanceled():
             return {}
 
@@ -342,7 +357,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
             'ENCODING': 'UTF-8',
             'FORCE_SINGLEPART': False,
             'GEOMETRY_COLUMN': 'geom',
-            'INPUT': outputs['CalculateProtectionPercentage']['OUTPUT'],
+            'INPUT': outputs['ReprojectLayer']['OUTPUT'],
             'LOWERCASE_NAMES': True,
             'OVERWRITE': False,
             'PRIMARY_KEY': '',
@@ -350,6 +365,17 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
             'TABLENAME': parameters['wdpaversionperc']
         }
         outputs['ExportToPostgresql'] = processing.run('qgis:importintopostgis', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(24)
+        if feedback.isCanceled():
+            return {}
+
+        # Create API
+        alg_params = {
+            'DATABASE': 'Biopama_api',
+            'SQL': parameters['APIComment']
+        }
+        outputs['CreateApi'] = processing.run('native:postgisexecutesql', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
         return results
 
     def name(self):
