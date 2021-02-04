@@ -8,9 +8,9 @@
 This is a step by step guide on how to calculate national protected areas coverage.
 
 ### 1. What is included in the calculation
-Only sites with Status = designated, inscribed, adopted and established are included.
-Only points with a Reported Area are included.
-Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves are excluded as specified in protectedplanet.net
+- Only sites with Status = designated, inscribed, adopted and established are included.
+- Only points with a Reported Area are included.
+- Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves are excluded as specified in protectedplanet.net
 ___________________________________________________________________________
 *The statistics are computed using **Mollweide projection**, witch is an equal area projection, particularly known for its accuracy of proportions in area.*
 ___________________________________________________________________________
