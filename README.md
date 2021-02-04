@@ -18,10 +18,10 @@ ___________________________________________________________________________
 - [x] Dowload World Database on Protected Areas (WDPA) from https://www.protectedplanet.net/ .
 - [x] Donload GAUL and EEZ form this repository.
 - [x] Add layers to QGIS.
-![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/img/WDPA.png)
 - [x] It is suggested to create a spatial index on the WDPA Polygons to speed up the process.
 - [x] Run 'protection_levels.py' in Qgis.
 - [x] Explore results!
+![map](https://raw.githubusercontent.com/BIOPAMA/protection_analyst/main/img/WDPA.png)
 ___________________________________________________________________________
 ### 3. What the algorithm does 
 - [x] Filter out the parameters specified in point 1.
