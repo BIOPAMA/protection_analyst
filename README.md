@@ -5,7 +5,7 @@
 
 
 ## Method used to calculate national protected area coverage
-This is a step by step guide on the method used to calculate national protected areas coverage and it is copliant with the process reported in www.protectedplanet.net. 
+This is a step by step guide on how to calculate national protected areas coverage.
 
 This methodology was originally designed to be run in ArcGIS, and has been converted here as a Python/Qgis script.
 
@@ -13,6 +13,8 @@ This methodology was originally designed to be run in ArcGIS, and has been conve
 *Only sites with Status = designated, inscribed, adopted and established are included.*
 *Only points with a Reported Area are included.*
 *Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves (see reasons above in Section 2) are excluded.*
+___________________________________________________________________________
+*The statistics are computed using Mollweide projection, witch is an equal area projection, particularly known for its accuracy of proportions in area*
 
 ### Steps
 - [x] Dowload World Database on Protected Areas (WDPA) from https://www.protectedplanet.net/ 
