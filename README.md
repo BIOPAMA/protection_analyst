@@ -18,7 +18,7 @@ ___________________________________________________________________________
 - [x] Dowload World Database on Protected Areas (WDPA) from https://www.protectedplanet.net/ .
 - [x] Donload GAUL and EEZ form this repository.
 - [x] Add layers to QGIS.
-- [x] Fix the WDPA polygon geometries
+- [x] Fix the WDPA polygon geometries.
 - [x] It is suggested to create a spatial index on the WDPA Polygons to speed up the process.
 - [x] Run 'protection_levels.py' in Qgis.
 - [x] Explore results!
