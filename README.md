@@ -1,7 +1,7 @@
 # Protection Analyst
 ### Calculates Protected Areas coverage and protection percentage in Country and EEZ
 
-**The script produces a spatial vector layer based on your input choice, containg the results of the spatial statistic performed, including protected area coverage and protected area coverage percentage**
+**The script produces a vector layer, based on your input, containg the results of the spatial statistic performed, including protected area coverage and protected area coverage percentage**
 
 If you have a postgres database connected to your Qgis environment, the script will also load your output in it.
 
