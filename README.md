@@ -5,7 +5,7 @@
 
 If you have a postgres database connected to your Qgis environment, the script will also load your output in it.
 
-### 1. What is included and not include in the calculation
+### 1. What is included and not included in the calculation
 - Only sites with Status = designated, inscribed, adopted and established are included.
 - Only points with a Reported Area are included.
 - Sites with Status = Proposed, Not Reported; points with no reported area, and UNESCO Man and Biosphere Reserves are excluded as specified in protectedplanet.net
