@@ -136,7 +136,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
 
         # Extract by expression
         alg_params = {
-            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Eestablished\' ',
+            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Established \' ',
             'INPUT': outputs['ExtractedPolygons']['OUTPUT'],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
