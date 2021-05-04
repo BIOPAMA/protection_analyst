@@ -8,9 +8,9 @@ With QGIS : 31415
 from qgis.core import QgsProcessing
 from qgis.core import QgsProcessingAlgorithm
 from qgis.core import QgsProcessingMultiStepFeedback
+from qgis.core import QgsProcessingParameterString
 from qgis.core import QgsProcessingParameterVectorLayer
 from qgis.core import QgsProcessingParameterFeatureSink
-from qgis.core import QgsProcessingParameterString
 from qgis.core import QgsProcessingParameterDefinition
 from qgis.core import QgsCoordinateReferenceSystem
 from qgis.core import QgsProperty
@@ -20,35 +20,23 @@ import processing
 class Wdpa_country_processing(QgsProcessingAlgorithm):
 
     def initAlgorithm(self, config=None):
+        param = QgsProcessingParameterString('APIComment', 'API Comment', optional=True, multiLine=False, defaultValue='comment on table protection_level.api_mar_feb_2021 is \'21_02 - Terrestrial protection February 2021\';')
+        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(param)
         self.addParameter(QgsProcessingParameterVectorLayer('inputcountries', 'Input Countries or EEZ', types=[QgsProcessing.TypeVectorPolygon], defaultValue=None))
         self.addParameter(QgsProcessingParameterVectorLayer('inputwdpapoints', 'Input wdpa points', types=[QgsProcessing.TypeVectorPoint], defaultValue=None))
         self.addParameter(QgsProcessingParameterVectorLayer('inputwdpapolygons', 'Input wdpa polygons', types=[QgsProcessing.TypeVectorPolygon], defaultValue=None))
+        param = QgsProcessingParameterString('wdpaversionperc', 'Postgres Table Name', multiLine=False, defaultValue='api_terr_jan_2021')
+        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
+        self.addParameter(param)
         self.addParameter(QgsProcessingParameterFeatureSink('Result', 'Result', type=QgsProcessing.TypeVectorAnyGeometry, createByDefault=True, supportsAppend=True, defaultValue=None))
-        param = QgsProcessingParameterString('APIComment', 'API Comment', optional=True, multiLine=False, defaultValue='comment on table protection_level.api_ter_mar_2021 is \'21_03 - Terrestrial protection March 2021\';')
-        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(param)
-        param = QgsProcessingParameterString('wdpaversionperc', 'Postgres Table Name', multiLine=False, defaultValue='api_ter_mar_2021')
-        param.setFlags(param.flags() | QgsProcessingParameterDefinition.FlagAdvanced)
-        self.addParameter(param)
 
     def processAlgorithm(self, parameters, context, model_feedback):
         # Use a multi-step feedback, so that individual child algorithm progress reports are adjusted for the
         # overall progress through the model
-        feedback = QgsProcessingMultiStepFeedback(25, model_feedback)
+        feedback = QgsProcessingMultiStepFeedback(26, model_feedback)
         results = {}
         outputs = {}
-
-        # Reproject countries
-        alg_params = {
-            'INPUT': parameters['inputcountries'],
-            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
-        }
-        outputs['ReprojectCountries'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
-
-        feedback.setCurrentStep(1)
-        if feedback.isCanceled():
-            return {}
 
         # Reproject layer
         alg_params = {
@@ -58,7 +46,43 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['ReprojectLayer'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
+        feedback.setCurrentStep(1)
+        if feedback.isCanceled():
+            return {}
+
+        # Extract by expression
+        alg_params = {
+            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Established\'  \nor  \"DESIG_ENG\" = \'UNESCO-MAB Biosphere Reserve\' ',
+            'INPUT': parameters['inputwdpapoints'],
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['ExtractByExpression'] = processing.run('native:extractbyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
         feedback.setCurrentStep(2)
+        if feedback.isCanceled():
+            return {}
+
+        # Reproject points
+        alg_params = {
+            'INPUT': outputs['ExtractByExpression']['OUTPUT'],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['ReprojectPoints'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(3)
+        if feedback.isCanceled():
+            return {}
+
+        # Reproject countries
+        alg_params = {
+            'INPUT': parameters['inputcountries'],
+            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['ReprojectCountries'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(4)
         if feedback.isCanceled():
             return {}
 
@@ -71,19 +95,19 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['ExtractedPolygons'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(3)
+        feedback.setCurrentStep(5)
         if feedback.isCanceled():
             return {}
 
-        # Reproject points
+        # Extract by expression
         alg_params = {
-            'INPUT': parameters['inputwdpapoints'],
-            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:54009'),
+            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Established\'  \nor  \"DESIG_ENG\" = \'UNESCO-MAB Biosphere Reserve\' ',
+            'INPUT': outputs['ExtractedPolygons']['OUTPUT'],
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
-        outputs['ReprojectPoints'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs['ExtractByExpression'] = processing.run('native:extractbyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(4)
+        feedback.setCurrentStep(6)
         if feedback.isCanceled():
             return {}
 
@@ -96,7 +120,18 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['ExtractedPoints'] = processing.run('native:extractbylocation', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(5)
+        feedback.setCurrentStep(7)
+        if feedback.isCanceled():
+            return {}
+
+        # Fix EXTRACTED
+        alg_params = {
+            'INPUT': outputs['ExtractByExpression']['OUTPUT'],
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        outputs['FixExtracted'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+
+        feedback.setCurrentStep(8)
         if feedback.isCanceled():
             return {}
 
@@ -113,7 +148,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FieldCalculator'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(6)
+        feedback.setCurrentStep(9)
         if feedback.isCanceled():
             return {}
 
@@ -130,19 +165,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['Buffer'] = processing.run('native:buffer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(7)
-        if feedback.isCanceled():
-            return {}
-
-        # Extract by expression
-        alg_params = {
-            'EXPRESSION': '\"STATUS\"   =  \'Designated\'\r\nor  \"STATUS\"  = \'Inscribed\'\r\n or \"STATUS\"  = \'Adopted\'\r\nor  \"STATUS\"  = \'Established \' ',
-            'INPUT': outputs['ExtractedPolygons']['OUTPUT'],
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
-        }
-        outputs['ExtractByExpression'] = processing.run('native:extractbyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
-
-        feedback.setCurrentStep(8)
+        feedback.setCurrentStep(10)
         if feedback.isCanceled():
             return {}
 
@@ -153,18 +176,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FixBuffer'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(9)
-        if feedback.isCanceled():
-            return {}
-
-        # Fix EXTRACTED
-        alg_params = {
-            'INPUT': outputs['ExtractByExpression']['OUTPUT'],
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
-        }
-        outputs['FixExtracted'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
-
-        feedback.setCurrentStep(10)
+        feedback.setCurrentStep(11)
         if feedback.isCanceled():
             return {}
 
@@ -176,7 +188,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['DissolvePolygons'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(11)
+        feedback.setCurrentStep(12)
         if feedback.isCanceled():
             return {}
 
@@ -188,7 +200,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['DissolveBufferedPoints'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(12)
+        feedback.setCurrentStep(13)
         if feedback.isCanceled():
             return {}
 
@@ -200,7 +212,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['MergedProtection'] = processing.run('native:mergevectorlayers', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(13)
+        feedback.setCurrentStep(14)
         if feedback.isCanceled():
             return {}
 
@@ -211,7 +223,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FixMergedPointsAndPolygons'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(14)
+        feedback.setCurrentStep(15)
         if feedback.isCanceled():
             return {}
 
@@ -223,7 +235,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['DissolveProtection'] = processing.run('native:dissolve', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(15)
+        feedback.setCurrentStep(16)
         if feedback.isCanceled():
             return {}
 
@@ -234,7 +246,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['FixDissolvedProtection'] = processing.run('native:fixgeometries', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(16)
+        feedback.setCurrentStep(17)
         if feedback.isCanceled():
             return {}
 
@@ -246,7 +258,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['Clip'] = processing.run('native:clip', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(17)
+        feedback.setCurrentStep(18)
         if feedback.isCanceled():
             return {}
 
@@ -263,7 +275,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateClippedArea'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(18)
+        feedback.setCurrentStep(19)
         if feedback.isCanceled():
             return {}
 
@@ -281,7 +293,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['JoinGeometriesWithAttributes'] = processing.run('native:joinattributestable', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(19)
+        feedback.setCurrentStep(20)
         if feedback.isCanceled():
             return {}
 
@@ -298,7 +310,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateCountryArea'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(20)
+        feedback.setCurrentStep(21)
         if feedback.isCanceled():
             return {}
 
@@ -315,7 +327,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateProtection'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(21)
+        feedback.setCurrentStep(22)
         if feedback.isCanceled():
             return {}
 
@@ -332,7 +344,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['CalculateProtectionPercentage'] = processing.run('qgis:fieldcalculator', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(22)
+        feedback.setCurrentStep(23)
         if feedback.isCanceled():
             return {}
 
@@ -345,7 +357,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         outputs['ReprojectLayer'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
         results['Result'] = outputs['ReprojectLayer']['OUTPUT']
 
-        feedback.setCurrentStep(23)
+        feedback.setCurrentStep(24)
         if feedback.isCanceled():
             return {}
 
@@ -366,7 +378,7 @@ class Wdpa_country_processing(QgsProcessingAlgorithm):
         }
         outputs['ExportToPostgresql'] = processing.run('qgis:importintopostgis', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-        feedback.setCurrentStep(24)
+        feedback.setCurrentStep(25)
         if feedback.isCanceled():
             return {}
 
