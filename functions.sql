@@ -79,7 +79,7 @@ Use this API to retrieve all data or single country data given the parameter: is
 
 CREATE OR REPLACE FUNCTION protection_level.api_region_stats(
 	region_acp text DEFAULT NULL::text)
-    RETURNS SETOF protection_level.region_stats_ 
+    RETURNS SETOF protection_level.region_stats
     LANGUAGE 'plpgsql'
 
     COST 100
