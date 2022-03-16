@@ -29,8 +29,9 @@ ___________________________________________________________________________
 - [x] Fix geometries.
 - [x] Create a buffer around protected areas reported as points. The area of the buffer is = Reported Area. 
 - [x] Merge buffered WDPA point and WDPA polygons to combine them into one single feature dataset.
-- [x] Calculate protected area coverage in GAUL or EEZ.
-- [x] Calculate protected area percentage in GAUL or EEZ.
+- [x] Calculates protected area coverage in GAUL or EEZ.
+- [x] Calculates protected area percentage in GAUL or EEZ.
+- [x] Calculates number of protected areas by category in GAUL or EEZ.
 - [x] Load results in a postgres database.
 ___________________________________________________________________________
 
