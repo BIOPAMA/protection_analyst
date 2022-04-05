@@ -1,4 +1,4 @@
-create or replace view v_country_stats as 
+create or replace view protection_level.v_country_stats as 
 select 
 id as id,
 iso3 as iso3,
@@ -14,9 +14,9 @@ prot_perc as ter_perc_prot,
 country_mar_area_km as mar_area,
 prot_mar_km as mar_area_prot,
 prot_mar_perc as mar_perc_prot
-from protection_level.country_stats
+from protection_level.country_stats;
 
-create or replace view v_region_stats as 
+create or replace view protection_level.v_region_stats as 
 select 
 id as id,
 region_acp as region,
@@ -30,9 +30,9 @@ reg_terr_prot_perc as ter_perc_prot,
 reg_mar_area as mar_area,
 reg_mar_area_prot as mar_area_prot,
 reg_mar_prot_perc as mar_perc_prot
-from protection_level.region_stats
+from protection_level.region_stats;
 
-create or replace view v_acp_stats as 
+create or replace view protection_level.v_acp_stats as 
 select 
 id as id,
 tot_count_acp as total_count,
