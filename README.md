@@ -1,4 +1,4 @@
-# Protection Analyst
+# BIOPAMA Protection Analyst
 ### Calculates Protected Areas coverage and protection percentage in Country and EEZ
 
 **The script produces a vector layer, based on your input, containg the results of the spatial statistic performed, including protected area coverage and protected area coverage percentage**
