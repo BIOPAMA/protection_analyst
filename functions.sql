@@ -1,20 +1,29 @@
-create or replace view protection_level.v_country_stats as 
-select 
-id as id,
-iso3 as iso3,
-grouping_i as "grouping",
-region_acp as region,
-count as total_count,
-terrestrial_count as ter_count,
-marine_count as mar_count,
-costal_count as cos_count,
-country_area_km as ter_area,
-prot_km as ter_area_prot,
-prot_perc as ter_perc_prot,
-country_mar_area_km as mar_area,
-prot_mar_km as mar_area_prot,
-prot_mar_perc as mar_perc_prot
-from protection_level.country_stats;
+CREATE OR REPLACE VIEW protection_level.v_country_stats AS 
+ 
+	 with country as(
+	 select isoa3_id, name from ancillary.gaul_acp
+	 )
+	select 
+	id as id,
+	iso3 as iso3,
+	grouping_i as "grouping",
+	region_acp as region,
+	count as total_count,
+	terrestrial_count as ter_count,
+	marine_count as mar_count,
+	costal_count as cos_count,
+	country_area_km as ter_area,
+	prot_km as ter_area_prot,
+	prot_perc as ter_perc_prot,
+	country_mar_area_km as mar_area,
+	prot_mar_km as mar_area_prot,
+	prot_mar_perc as mar_perc_prot,
+	country.name
+	    FROM protection_level.country_stats
+		
+LEFT JOIN country on country_stats.iso3::character varying = country.isoa3_id::character varying
+
+
 
 create or replace view protection_level.v_region_stats as 
 select 
