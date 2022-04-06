@@ -740,6 +740,87 @@
         </Option>
       </Option>
     </Option>
+    <Option type="Map" name="native:deletecolumn_17">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="native:deletecolumn" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3870" type="double" name="component_pos_x"/>
+        <Option value="3865" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="Drop field(s)" type="QString" name="component_description"/>
+      <Option value="30" type="double" name="component_height"/>
+      <Option value="3150" type="double" name="component_pos_x"/>
+      <Option value="1735" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="native:deletecolumn_17" type="QString" name="id"/>
+      <Option type="Map" name="outputs">
+        <Option type="Map" name="REGION_IUCN_CAT">
+          <Option value="native:deletecolumn_17" type="QString" name="child_id"/>
+          <Option value="" type="QString" name="color"/>
+          <Option type="Map" name="comment">
+            <Option value="" type="QString" name="color"/>
+            <Option value="" type="QString" name="component_description"/>
+            <Option value="60" type="double" name="component_height"/>
+            <Option value="0" type="double" name="component_pos_x"/>
+            <Option value="0" type="double" name="component_pos_y"/>
+            <Option value="100" type="double" name="component_width"/>
+            <Option value="true" type="bool" name="outputs_collapsed"/>
+            <Option value="true" type="bool" name="parameters_collapsed"/>
+          </Option>
+          <Option value="REGION_IUCN_CAT" type="QString" name="component_description"/>
+          <Option value="30" type="double" name="component_height"/>
+          <Option value="3350" type="double" name="component_pos_x"/>
+          <Option value="1780" type="double" name="component_pos_y"/>
+          <Option value="200" type="double" name="component_width"/>
+          <Option type="invalid" name="default_value"/>
+          <Option value="false" type="bool" name="mandatory"/>
+          <Option value="REGION_IUCN_CAT" type="QString" name="name"/>
+          <Option value="OUTPUT" type="QString" name="output_name"/>
+          <Option value="true" type="bool" name="outputs_collapsed"/>
+          <Option value="true" type="bool" name="parameters_collapsed"/>
+        </Option>
+      </Option>
+      <Option value="false" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="COLUMN">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="StringList" name="static_value">
+              <Option value="unique" type="QString"/>
+              <Option value="min" type="QString"/>
+              <Option value="max" type="QString"/>
+              <Option value="range" type="QString"/>
+              <Option value="mean" type="QString"/>
+              <Option value="stddev" type="QString"/>
+              <Option value="minority" type="QString"/>
+              <Option value="majority" type="QString"/>
+              <Option value="q1" type="QString"/>
+              <Option value="q3" type="QString"/>
+              <Option value="median" type="QString"/>
+              <Option value="iqr" type="QString"/>
+              <Option value="count" type="QString"/>
+            </Option>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT">
+          <Option type="Map">
+            <Option value="qgis:statisticsbycategories_22" type="QString" name="child_id"/>
+            <Option value="OUTPUT" type="QString" name="output_name"/>
+            <Option value="1" type="int" name="source"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
     <Option type="Map" name="native:deletecolumn_2">
       <Option value="true" type="bool" name="active"/>
       <Option name="alg_config"/>
@@ -1854,8 +1935,8 @@
       </Option>
       <Option value="Extracted polygons" type="QString" name="component_description"/>
       <Option value="30" type="double" name="component_height"/>
-      <Option value="809.1465539371729" type="double" name="component_pos_x"/>
-      <Option value="156.00085404339416" type="double" name="component_pos_y"/>
+      <Option value="812.8965539371729" type="double" name="component_pos_x"/>
+      <Option value="163.50085404339416" type="double" name="component_pos_y"/>
       <Option value="200" type="double" name="component_width"/>
       <Option type="List" name="dependencies">
         <Option type="Map">
@@ -1972,8 +2053,8 @@
       </Option>
       <Option value="Extracted points EEZ4" type="QString" name="component_description"/>
       <Option value="30" type="double" name="component_height"/>
-      <Option value="2303.4447673727273" type="double" name="component_pos_x"/>
-      <Option value="207.54451709571305" type="double" name="component_pos_y"/>
+      <Option value="2590.9447673727273" type="double" name="component_pos_x"/>
+      <Option value="210.04451709571305" type="double" name="component_pos_y"/>
       <Option value="200" type="double" name="component_width"/>
       <Option type="List" name="dependencies">
         <Option type="Map">
@@ -3790,6 +3871,85 @@
         </Option>
       </Option>
     </Option>
+    <Option type="Map" name="native:joinattributestable_21">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="native:joinattributestable" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3870" type="double" name="component_pos_x"/>
+        <Option value="3865" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="JOIN IUCN_CAT" type="QString" name="component_description"/>
+      <Option value="30" type="double" name="component_height"/>
+      <Option value="3100" type="double" name="component_pos_x"/>
+      <Option value="1420" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="native:joinattributestable_21" type="QString" name="id"/>
+      <Option name="outputs"/>
+      <Option value="true" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="DISCARD_NONMATCHING">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="false" type="bool" name="static_value"/>
+          </Option>
+        </Option>
+        <Option type="List" name="FIELD">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="ISO3" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+        <Option type="List" name="FIELDS_TO_COPY">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="StringList" name="static_value">
+              <Option value="region_acp" type="QString"/>
+            </Option>
+          </Option>
+        </Option>
+        <Option type="List" name="FIELD_2">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="isoa3_id" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT">
+          <Option type="Map">
+            <Option value="native:mergevectorlayers_4" type="QString" name="child_id"/>
+            <Option value="OUTPUT" type="QString" name="output_name"/>
+            <Option value="1" type="int" name="source"/>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT_2">
+          <Option type="Map">
+            <Option value="inputcountries" type="QString" name="parameter_name"/>
+            <Option value="0" type="int" name="source"/>
+          </Option>
+        </Option>
+        <Option type="List" name="METHOD">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="0" type="int" name="static_value"/>
+          </Option>
+        </Option>
+        <Option type="List" name="PREFIX">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
     <Option type="Map" name="native:joinattributestable_3">
       <Option value="true" type="bool" name="active"/>
       <Option name="alg_config"/>
@@ -4605,6 +4765,52 @@
           <Option type="Map">
             <Option value="inputwdpapoints" type="QString" name="parameter_name"/>
             <Option value="0" type="int" name="source"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
+    <Option type="Map" name="native:mergevectorlayers_4">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="native:mergevectorlayers" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3870" type="double" name="component_pos_x"/>
+        <Option value="3865" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="Merge IUCN_CAT" type="QString" name="component_description"/>
+      <Option value="125" type="double" name="component_height"/>
+      <Option value="3105" type="double" name="component_pos_x"/>
+      <Option value="1217.5" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="native:mergevectorlayers_4" type="QString" name="id"/>
+      <Option name="outputs"/>
+      <Option value="true" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="CRS">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="invalid" name="static_value"/>
+          </Option>
+        </Option>
+        <Option type="List" name="LAYERS">
+          <Option type="Map">
+            <Option value="qgis:statisticsbycategories_20" type="QString" name="child_id"/>
+            <Option value="OUTPUT" type="QString" name="output_name"/>
+            <Option value="1" type="int" name="source"/>
+          </Option>
+          <Option type="Map">
+            <Option value="qgis:statisticsbycategories_21" type="QString" name="child_id"/>
+            <Option value="OUTPUT" type="QString" name="output_name"/>
+            <Option value="1" type="int" name="source"/>
           </Option>
         </Option>
       </Option>
@@ -6534,324 +6740,6 @@
         </Option>
       </Option>
     </Option>
-    <Option type="Map" name="qgis:importintopostgis_1">
-      <Option value="true" type="bool" name="active"/>
-      <Option name="alg_config"/>
-      <Option value="qgis:importintopostgis" type="QString" name="alg_id"/>
-      <Option value="" type="QString" name="color"/>
-      <Option type="Map" name="comment">
-        <Option value="" type="QString" name="color"/>
-        <Option value="" type="QString" name="component_description"/>
-        <Option value="60" type="double" name="component_height"/>
-        <Option value="3854.5835638252483" type="double" name="component_pos_x"/>
-        <Option value="1975.3001013811372" type="double" name="component_pos_y"/>
-        <Option value="100" type="double" name="component_width"/>
-        <Option value="true" type="bool" name="outputs_collapsed"/>
-        <Option value="true" type="bool" name="parameters_collapsed"/>
-      </Option>
-      <Option value="Export to PostgreSQL COUNTRY STATS" type="QString" name="component_description"/>
-      <Option value="66.75" type="double" name="component_height"/>
-      <Option value="2867.5" type="double" name="component_pos_x"/>
-      <Option value="2086.125" type="double" name="component_pos_y"/>
-      <Option value="200" type="double" name="component_width"/>
-      <Option type="List" name="dependencies">
-        <Option type="Map">
-          <Option value="native:joinattributestable_7" type="QString" name="child_id"/>
-          <Option value="" type="QString" name="conditional_branch"/>
-        </Option>
-      </Option>
-      <Option value="qgis:importintopostgis_1" type="QString" name="id"/>
-      <Option name="outputs"/>
-      <Option value="true" type="bool" name="outputs_collapsed"/>
-      <Option value="true" type="bool" name="parameters_collapsed"/>
-      <Option type="Map" name="params">
-        <Option type="List" name="CREATEINDEX">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DATABASE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="Biopama_api" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DROP_STRING_LENGTH">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="ENCODING">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="UTF-8" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="FORCE_SINGLEPART">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="GEOMETRY_COLUMN">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="geom" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="INPUT">
-          <Option type="Map">
-            <Option value="native:joinattributestable_7" type="QString" name="child_id"/>
-            <Option value="OUTPUT" type="QString" name="output_name"/>
-            <Option value="1" type="int" name="source"/>
-          </Option>
-        </Option>
-        <Option type="List" name="LOWERCASE_NAMES">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="OVERWRITE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="PRIMARY_KEY">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="SCHEMA">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="protection_level" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="TABLENAME">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="country_stats" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-      </Option>
-    </Option>
-    <Option type="Map" name="qgis:importintopostgis_2">
-      <Option value="true" type="bool" name="active"/>
-      <Option name="alg_config"/>
-      <Option value="qgis:importintopostgis" type="QString" name="alg_id"/>
-      <Option value="" type="QString" name="color"/>
-      <Option type="Map" name="comment">
-        <Option value="" type="QString" name="color"/>
-        <Option value="" type="QString" name="component_description"/>
-        <Option value="60" type="double" name="component_height"/>
-        <Option value="3931.0835638252483" type="double" name="component_pos_x"/>
-        <Option value="2834.050101381137" type="double" name="component_pos_y"/>
-        <Option value="100" type="double" name="component_width"/>
-        <Option value="true" type="bool" name="outputs_collapsed"/>
-        <Option value="true" type="bool" name="parameters_collapsed"/>
-      </Option>
-      <Option value="Export to PostgreSQL REGION STATS" type="QString" name="component_description"/>
-      <Option value="66.75" type="double" name="component_height"/>
-      <Option value="2778.25" type="double" name="component_pos_x"/>
-      <Option value="2885.625" type="double" name="component_pos_y"/>
-      <Option value="200" type="double" name="component_width"/>
-      <Option type="List" name="dependencies">
-        <Option type="Map">
-          <Option value="native:joinattributestable_11" type="QString" name="child_id"/>
-          <Option value="" type="QString" name="conditional_branch"/>
-        </Option>
-      </Option>
-      <Option value="qgis:importintopostgis_2" type="QString" name="id"/>
-      <Option name="outputs"/>
-      <Option value="true" type="bool" name="outputs_collapsed"/>
-      <Option value="true" type="bool" name="parameters_collapsed"/>
-      <Option type="Map" name="params">
-        <Option type="List" name="CREATEINDEX">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DATABASE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="Biopama_api" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DROP_STRING_LENGTH">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="ENCODING">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="UTF-8" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="FORCE_SINGLEPART">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="GEOMETRY_COLUMN">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="geom" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="INPUT">
-          <Option type="Map">
-            <Option value="native:joinattributestable_11" type="QString" name="child_id"/>
-            <Option value="OUTPUT" type="QString" name="output_name"/>
-            <Option value="1" type="int" name="source"/>
-          </Option>
-        </Option>
-        <Option type="List" name="LOWERCASE_NAMES">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="OVERWRITE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="PRIMARY_KEY">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="SCHEMA">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="protection_level" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="TABLENAME">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="region_stats" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-      </Option>
-    </Option>
-    <Option type="Map" name="qgis:importintopostgis_3">
-      <Option value="true" type="bool" name="active"/>
-      <Option name="alg_config"/>
-      <Option value="qgis:importintopostgis" type="QString" name="alg_id"/>
-      <Option value="" type="QString" name="color"/>
-      <Option type="Map" name="comment">
-        <Option value="" type="QString" name="color"/>
-        <Option value="" type="QString" name="component_description"/>
-        <Option value="60" type="double" name="component_height"/>
-        <Option value="4465.833563825248" type="double" name="component_pos_x"/>
-        <Option value="3746.800101381137" type="double" name="component_pos_y"/>
-        <Option value="100" type="double" name="component_width"/>
-        <Option value="true" type="bool" name="outputs_collapsed"/>
-        <Option value="true" type="bool" name="parameters_collapsed"/>
-      </Option>
-      <Option value="Export to PostgreSQL ACP STATS" type="QString" name="component_description"/>
-      <Option value="66.75" type="double" name="component_height"/>
-      <Option value="3008.5" type="double" name="component_pos_x"/>
-      <Option value="3787.875" type="double" name="component_pos_y"/>
-      <Option value="200" type="double" name="component_width"/>
-      <Option type="List" name="dependencies">
-        <Option type="Map">
-          <Option value="native:deletecolumn_16" type="QString" name="child_id"/>
-          <Option value="" type="QString" name="conditional_branch"/>
-        </Option>
-      </Option>
-      <Option value="qgis:importintopostgis_3" type="QString" name="id"/>
-      <Option name="outputs"/>
-      <Option value="true" type="bool" name="outputs_collapsed"/>
-      <Option value="true" type="bool" name="parameters_collapsed"/>
-      <Option type="Map" name="params">
-        <Option type="List" name="CREATEINDEX">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DATABASE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="Biopama_api" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="DROP_STRING_LENGTH">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="ENCODING">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="UTF-8" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="FORCE_SINGLEPART">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="GEOMETRY_COLUMN">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="geom" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="INPUT">
-          <Option type="Map">
-            <Option value="native:deletecolumn_16" type="QString" name="child_id"/>
-            <Option value="OUTPUT" type="QString" name="output_name"/>
-            <Option value="1" type="int" name="source"/>
-          </Option>
-        </Option>
-        <Option type="List" name="LOWERCASE_NAMES">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="true" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="OVERWRITE">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="false" type="bool" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="PRIMARY_KEY">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="SCHEMA">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="protection_level" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-        <Option type="List" name="TABLENAME">
-          <Option type="Map">
-            <Option value="2" type="int" name="source"/>
-            <Option value="acp_stats" type="QString" name="static_value"/>
-          </Option>
-        </Option>
-      </Option>
-    </Option>
     <Option type="Map" name="qgis:statisticsbycategories_1">
       <Option value="true" type="bool" name="active"/>
       <Option name="alg_config"/>
@@ -6869,8 +6757,8 @@
       </Option>
       <Option value="NUMBER_OF_PAS_ TOTAL" type="QString" name="component_description"/>
       <Option value="30" type="double" name="component_height"/>
-      <Option value="2463.433767743117" type="double" name="component_pos_x"/>
-      <Option value="1688.191100706268" type="double" name="component_pos_y"/>
+      <Option value="2707.933767743117" type="double" name="component_pos_x"/>
+      <Option value="1724.191100706268" type="double" name="component_pos_y"/>
       <Option value="200" type="double" name="component_width"/>
       <Option name="dependencies"/>
       <Option value="qgis:statisticsbycategories_1" type="QString" name="id"/>
@@ -7455,6 +7343,154 @@
         </Option>
       </Option>
     </Option>
+    <Option type="Map" name="qgis:statisticsbycategories_20">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="qgis:statisticsbycategories" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3870" type="double" name="component_pos_x"/>
+        <Option value="3865" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="POLYGON_IUCN_CAT" type="QString" name="component_description"/>
+      <Option value="30" type="double" name="component_height"/>
+      <Option value="2892.5" type="double" name="component_pos_x"/>
+      <Option value="990" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="qgis:statisticsbycategories_20" type="QString" name="id"/>
+      <Option name="outputs"/>
+      <Option value="true" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="CATEGORIES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="StringList" name="static_value">
+              <Option value="ISO3" type="QString"/>
+              <Option value="IUCN_CAT" type="QString"/>
+            </Option>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT">
+          <Option type="Map">
+            <Option value="inputwdpapolygons" type="QString" name="parameter_name"/>
+            <Option value="0" type="int" name="source"/>
+          </Option>
+        </Option>
+        <Option type="List" name="VALUES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="IUCN_CAT" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
+    <Option type="Map" name="qgis:statisticsbycategories_21">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="qgis:statisticsbycategories" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3885" type="double" name="component_pos_x"/>
+        <Option value="4395" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="POINT_IUCN_CAT" type="QString" name="component_description"/>
+      <Option value="30" type="double" name="component_height"/>
+      <Option value="3215" type="double" name="component_pos_x"/>
+      <Option value="985" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="qgis:statisticsbycategories_21" type="QString" name="id"/>
+      <Option name="outputs"/>
+      <Option value="true" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="CATEGORIES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="StringList" name="static_value">
+              <Option value="ISO3" type="QString"/>
+              <Option value="IUCN_CAT" type="QString"/>
+            </Option>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT">
+          <Option type="Map">
+            <Option value="inputwdpapoints" type="QString" name="parameter_name"/>
+            <Option value="0" type="int" name="source"/>
+          </Option>
+        </Option>
+        <Option type="List" name="VALUES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="IUCN_CAT" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
+    <Option type="Map" name="qgis:statisticsbycategories_22">
+      <Option value="true" type="bool" name="active"/>
+      <Option name="alg_config"/>
+      <Option value="qgis:statisticsbycategories" type="QString" name="alg_id"/>
+      <Option value="" type="QString" name="color"/>
+      <Option type="Map" name="comment">
+        <Option value="" type="QString" name="color"/>
+        <Option value="" type="QString" name="component_description"/>
+        <Option value="60" type="double" name="component_height"/>
+        <Option value="3870" type="double" name="component_pos_x"/>
+        <Option value="3865" type="double" name="component_pos_y"/>
+        <Option value="100" type="double" name="component_width"/>
+        <Option value="true" type="bool" name="outputs_collapsed"/>
+        <Option value="true" type="bool" name="parameters_collapsed"/>
+      </Option>
+      <Option value="COUNT IUCN_CAT" type="QString" name="component_description"/>
+      <Option value="30" type="double" name="component_height"/>
+      <Option value="3130" type="double" name="component_pos_x"/>
+      <Option value="1610" type="double" name="component_pos_y"/>
+      <Option value="200" type="double" name="component_width"/>
+      <Option name="dependencies"/>
+      <Option value="qgis:statisticsbycategories_22" type="QString" name="id"/>
+      <Option name="outputs"/>
+      <Option value="true" type="bool" name="outputs_collapsed"/>
+      <Option value="true" type="bool" name="parameters_collapsed"/>
+      <Option type="Map" name="params">
+        <Option type="List" name="CATEGORIES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option type="StringList" name="static_value">
+              <Option value="IUCN_CAT" type="QString"/>
+              <Option value="region_acp" type="QString"/>
+            </Option>
+          </Option>
+        </Option>
+        <Option type="List" name="INPUT">
+          <Option type="Map">
+            <Option value="native:joinattributestable_21" type="QString" name="child_id"/>
+            <Option value="OUTPUT" type="QString" name="output_name"/>
+            <Option value="1" type="int" name="source"/>
+          </Option>
+        </Option>
+        <Option type="List" name="VALUES_FIELD_NAME">
+          <Option type="Map">
+            <Option value="2" type="int" name="source"/>
+            <Option value="count" type="QString" name="static_value"/>
+          </Option>
+        </Option>
+      </Option>
+    </Option>
     <Option type="Map" name="qgis:statisticsbycategories_3">
       <Option value="true" type="bool" name="active"/>
       <Option name="alg_config"/>
@@ -7835,11 +7871,23 @@
     </Option>
   </Option>
   <Option type="Map" name="designerParameterValues">
-    <Option value="GAUL_46677438_f441_49e1_9701_d16ebf77f2dc" type="QString" name="inputcountries"/>
-    <Option value="EEZ_a131454f_b9a8_4559_8240_0692882e71a9" type="QString" name="inputcountries (2)"/>
-    <Option value="WDPA_WDOECM_point_Mar2022_d6b3a7c0_cef8_4426_9640_7842ee8f1c8a" type="QString" name="inputwdpapoints"/>
-    <Option value="WDPA_WDOECM_poly_Mar2022_5099aaa4_0086_4688_9e8e_5060654f4028" type="QString" name="inputwdpapolygons"/>
+    <Option value="GAUL_32075f20_51d0_468e_940c_c1c2c77b4294" type="QString" name="inputcountries"/>
+    <Option value="EEZ_483b6726_8eda_477f_b37d_25c2c35ca8ff" type="QString" name="inputcountries (2)"/>
+    <Option value="WDPA_WDOECM_point_Apr2022_781da407_e81b_411a_b947_96c769ff5ea2" type="QString" name="inputwdpapoints"/>
+    <Option value="WDPA_WDOECM_poly_Apr2022_54b2f239_feb8_47c8_ba3a_b47440428ee9" type="QString" name="inputwdpapolygons"/>
     <Option type="QgsProcessingOutputLayerDefinition" name="native:deletecolumn_16:ACP_STATS">
+      <Option type="Map">
+        <Option type="Map" name="create_options">
+          <Option value="System" type="QString" name="fileEncoding"/>
+        </Option>
+        <Option type="Map" name="sink">
+          <Option value="true" type="bool" name="active"/>
+          <Option value="1" type="int" name="type"/>
+          <Option value="TEMPORARY_OUTPUT" type="QString" name="val"/>
+        </Option>
+      </Option>
+    </Option>
+    <Option type="QgsProcessingOutputLayerDefinition" name="native:deletecolumn_17:REGION_IUCN_CAT">
       <Option type="Map">
         <Option type="Map" name="create_options">
           <Option value="System" type="QString" name="fileEncoding"/>
@@ -7944,6 +7992,20 @@
       <Option value="" type="QString" name="help"/>
       <Option name="metadata"/>
       <Option value="native:deletecolumn_16:ACP_STATS" type="QString" name="name"/>
+      <Option value="sink" type="QString" name="parameter_type"/>
+      <Option value="true" type="bool" name="supports_append"/>
+      <Option value="true" type="bool" name="supports_non_file_outputs"/>
+    </Option>
+    <Option type="Map" name="native:deletecolumn_17:REGION_IUCN_CAT">
+      <Option value="true" type="bool" name="create_by_default"/>
+      <Option value="-1" type="int" name="data_type"/>
+      <Option type="invalid" name="default"/>
+      <Option type="invalid" name="defaultGui"/>
+      <Option value="REGION_IUCN_CAT" type="QString" name="description"/>
+      <Option value="0" type="int" name="flags"/>
+      <Option value="" type="QString" name="help"/>
+      <Option name="metadata"/>
+      <Option value="native:deletecolumn_17:REGION_IUCN_CAT" type="QString" name="name"/>
       <Option value="sink" type="QString" name="parameter_type"/>
       <Option value="true" type="bool" name="supports_append"/>
       <Option value="true" type="bool" name="supports_non_file_outputs"/>
