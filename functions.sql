@@ -166,3 +166,33 @@ ALTER FUNCTION protection_level.api_region_stats(text)
 COMMENT ON FUNCTION protection_level.api_region_stats(text)
     IS 'BIOPAMA Protection Statistics at regional level. Data is uprated every month
 Use this API to retrieve all data or single country data given the parameter: region_acp';
+
+--IUCN CATS
+
+CREATE OR REPLACE FUNCTION protection_level.api_region_iucn_cat(
+	region_acp text DEFAULT NULL::text)
+    RETURNS SETOF protection_level.region_iucn_cat
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+    
+AS $BODY$
+BEGIN
+IF $1 is null THEN
+      RETURN query SELECT * FROM protection_level.region_iucn_cat;
+ELSE
+      RETURN query SELECT * FROM protection_level.region_iucn_cat where region_iucn_cat.region_acp=$1;
+END IF;
+END
+$BODY$;
+
+ALTER FUNCTION protection_level.api_region_iucn_cat(text)
+    OWNER TO biopama_api_user;
+
+COMMENT ON FUNCTION protection_level.api_region_iucn_cat(text)
+    IS 'BIOPAMA Protection Statistics at regional level. Data is uprated every month
+Use this API to retrieve all data or single country data given the parameter: region_acp';
+
+
