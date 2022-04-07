@@ -56,6 +56,18 @@ mar_area_prot_acp as mar_area_prot,
 mar_prot_perc_acp as mar_perc_prot
 from protection_level.acp_stats
 
+
+DELETE FROM protection_level.region_iucn_cat
+WHERE region_acp = '';
+
+DELETE FROM protection_level.region_desig
+WHERE region_acp = '';
+
+DELETE FROM protection_level.region_gov_type
+WHERE region_acp = '';
+
+
+
 --ACP API
 
 CREATE OR REPLACE FUNCTION protection_level.api_acp_stats(
@@ -109,7 +121,7 @@ ALTER FUNCTION protection_level.api_country_list_stats(text)
 
 COMMENT ON FUNCTION protection_level.api_country_list_stats(text)
     IS 'BIOPAMA Protection Statistics at country level. It returns a list of countries and related information. Data is updated every month
-Use this API to retrieve all data or single country data given the parameter: region_acp';
+Use this API to retrieve all data or single region data given the parameter: region';
 
 --COUNTRY API
 
@@ -165,7 +177,7 @@ ALTER FUNCTION protection_level.api_region_stats(text)
 
 COMMENT ON FUNCTION protection_level.api_region_stats(text)
     IS 'BIOPAMA Protection Statistics at regional level. Data is uprated every month
-Use this API to retrieve all data or single country data given the parameter: region_acp';
+Use this API to retrieve all data or single region data given the parameter: region_acp';
 
 --IUCN CATS
 
@@ -192,7 +204,62 @@ ALTER FUNCTION protection_level.api_region_iucn_cat(text)
     OWNER TO biopama_api_user;
 
 COMMENT ON FUNCTION protection_level.api_region_iucn_cat(text)
-    IS 'BIOPAMA Protection Statistics at regional level. Data is uprated every month
+    IS 'BIOPAMA IUCN Categories Statistics at regional level. Data is uprated every month
+Use this API to retrieve all data or single region data given the parameter: region_acp';
+
+-- DESIGNATIONS
+
+CREATE OR REPLACE FUNCTION protection_level.api_region_desig(
+	region_acp text DEFAULT NULL::text)
+    RETURNS SETOF protection_level.region_desig
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+    
+AS $BODY$
+BEGIN
+IF $1 is null THEN
+      RETURN query SELECT * FROM protection_level.region_desig;
+ELSE
+      RETURN query SELECT * FROM protection_level.region_desig where region_desig.region_acp=$1;
+END IF;
+END
+$BODY$;
+
+ALTER FUNCTION protection_level.api_region_desig(text)
+    OWNER TO biopama_api_user;
+
+COMMENT ON FUNCTION protection_level.api_region_desig(text)
+    IS 'BIOPAMA Designations Statistics at regional level. Data is uprated every month
 Use this API to retrieve all data or single country data given the parameter: region_acp';
 
 
+-- GOVERNACE TYPE
+
+CREATE OR REPLACE FUNCTION protection_level.api_region_gov_type(
+	region_acp text DEFAULT NULL::text)
+    RETURNS SETOF protection_level.region_gov_type
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+    
+AS $BODY$
+BEGIN
+IF $1 is null THEN
+      RETURN query SELECT * FROM protection_level.region_gov_type;
+ELSE
+      RETURN query SELECT * FROM protection_level.region_gov_type where region_gov_type.region_acp=$1;
+END IF;
+END
+$BODY$;
+
+ALTER FUNCTION protection_level.api_region_gov_type(text)
+    OWNER TO biopama_api_user;
+
+COMMENT ON FUNCTION protection_level.api_region_gov_type(text)
+    IS 'BIOPAMA Governace Type Statistics at regional level. Data is uprated every month
+Use this API to retrieve all data or single region data given the parameter: region_acp';
