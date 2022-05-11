@@ -1,3 +1,20 @@
+drop table protection_level.acp_stats cascade; 
+drop table protection_level.region_desig cascade; 
+drop table protection_level.region_gov_type cascade; 
+drop table protection_level.region_iucn_cat cascade; 
+drop table protection_level.region_stats cascade; 
+drop table protection_level.country_stats cascade; 
+
+DELETE FROM protection_level.region_iucn_cat
+WHERE region_acp = '';
+
+DELETE FROM protection_level.region_desig
+WHERE region_acp = '';
+
+DELETE FROM protection_level.region_gov_type
+WHERE region_acp = '';
+
+
 CREATE OR REPLACE VIEW protection_level.v_country_stats AS 
 	 with country as(select isoa3_id,iso2, name from ancillary.gaul_atts
 	 )
@@ -56,14 +73,7 @@ mar_prot_perc_acp as mar_perc_prot
 from protection_level.acp_stats
 
 
-DELETE FROM protection_level.region_iucn_cat
-WHERE region_acp = '';
 
-DELETE FROM protection_level.region_desig
-WHERE region_acp = '';
-
-DELETE FROM protection_level.region_gov_type
-WHERE region_acp = '';
 
 
 
