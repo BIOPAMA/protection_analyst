@@ -1,7 +1,5 @@
 CREATE OR REPLACE VIEW protection_level.v_country_stats AS 
- 
-	 with country as(
-	 select isoa3_id, name from ancillary.gaul_acp
+	 with country as(select isoa3_id,iso2, name from ancillary.gaul_atts
 	 )
 	select 
 	id as id,
@@ -18,7 +16,8 @@ CREATE OR REPLACE VIEW protection_level.v_country_stats AS
 	country_mar_area_km as mar_area,
 	prot_mar_km as mar_area_prot,
 	prot_mar_perc as mar_perc_prot,
-	country.name
+	country.name,
+	country.iso2
 	    FROM protection_level.country_stats
 		
 LEFT JOIN country on country_stats.iso3::character varying = country.isoa3_id::character varying
